@@ -1,28 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Sparklines, SparklinesLine, SparklinesBars } from 'react-sparklines';
+import Chart from '../components/Chart';
 
 class WeatherList extends Component {
     renderWeather(cityData) {
         const name = cityData.city.name;
-        const temps = cityData.list.map(weather => weather.main.temp);
-        const pressure = cityData.list.map(weather => weather.main.pressure);
+        const temps = _.map(cityData.list.map(weather => weather.main.temp), (temp) => temp * (9/5) - 459.67);
+        const pressures = cityData.list.map(weather => weather.main.pressure);
+        const humidities = cityData.list.map(weather => weather.main.humidity);
 
         return (
             <tr key={name}>
                 <td>{name}</td>
-                <td style={{width: 280, height: 256}}>
-                    <Sparklines height={120} width={180} data={temps}>
-                        <SparklinesLine color={"red"} />
-                        <SparklinesBars />
-                    </Sparklines>
-                </td>
-                <td style={{width: 280, height: 256}}>
-                    <Sparklines height={120} width={180} data={pressure}>
-                        <SparklinesLine color={"green"} />
-                        <SparklinesBars />
-                    </Sparklines>
-                </td>
+                <td style={{width: 280, height: 256}}><Chart data={temps} color="red" units="F" /></td>
+                <td style={{width: 280, height: 256}}><Chart data={pressures} color="blue" units="hPa" /></td>
+                <td style={{width: 280, height: 256}}><Chart data={humidities} color="green" units="%" /></td>
             </tr>
         )
     }
@@ -33,9 +25,9 @@ class WeatherList extends Component {
                 <thead>
                     <tr>
                         <th>City</th>
-                        <th>Temperature</th>
-                        <th>Pressure</th>
-                        <th>Humidity</th>
+                        <th>Temperature (F)</th>
+                        <th>Pressure (hPa)</th>
+                        <th>Humidity (%)</th>
                     </tr>
                 </thead>
                 <tbody>
