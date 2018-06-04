@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Sparklines, SparklinesLine, SparklinesBars } from 'react-sparklines';
-import './weatherlist.css';
 
 class WeatherList extends Component {
     renderWeather(cityData) {
@@ -10,15 +9,15 @@ class WeatherList extends Component {
         const pressure = cityData.list.map(weather => weather.main.pressure);
 
         return (
-            <tr key={name} className="boxSize">
+            <tr key={name}>
                 <td>{name}</td>
-                <td>
+                <td style={{width: 280, height: 256}}>
                     <Sparklines height={120} width={180} data={temps}>
                         <SparklinesLine color={"red"} />
                         <SparklinesBars />
                     </Sparklines>
                 </td>
-                <td>
+                <td style={{width: 280, height: 256}}>
                     <Sparklines height={120} width={180} data={pressure}>
                         <SparklinesLine color={"green"} />
                         <SparklinesBars />
